@@ -29,6 +29,9 @@
     "jquery": [
       "dist/*.js",
       "dist/*.map"
+    ],
+    "angular-resource": [
+      "*.js"
     ]
   }
 }
