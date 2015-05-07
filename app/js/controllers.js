@@ -4,6 +4,11 @@
 
 var twitControllers = angular.module('twitControllers',[]);
 
+twitControllers.controller('resourceCtrl', function($scope, Tweet) {
+
+});
+
+
 twitControllers.controller('list', ['$scope', '$http', function($scope, $http){
 
 }]);

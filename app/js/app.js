@@ -1,2 +1,2 @@
 
-var tweetApp = angular.module('twitty',['ngRoute', 'twitControllers' ]);
+var tweetApp = angular.module('twitty',['ngResource', 'twitControllers', 'twitDirectives' ]);
