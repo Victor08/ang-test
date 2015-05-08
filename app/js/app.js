@@ -1,10 +1,14 @@
 
-var tweetApp = angular.module('twitty',['ngResource', 'ngRoute', 'twitControllers', 'twitDirectives' ]);
+var tweetApp = angular.module('twitty',['ngResource', 'ngRoute', 'twitControllers', 'twitDirectives', 'twitServices' ]);
 
-tweetApp.config([$routeProvider, function($routeProvider){
+tweetApp.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/tweets', {
-            templateUrl: 'list/main.html',
-            controller:
+            templateUrl: 'templates/list/main.html',
+            controller: 'listCtrl'
         })
-}])
+        .when('/', {
+            templateUrl: 'templates/list/main.html',
+            controller: 'listCtrl'
+        })
+}]);
