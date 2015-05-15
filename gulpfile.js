@@ -1,7 +1,7 @@
 /**
  * Plugins
  */
-var gulp            = require('gulp'),
+var gulp          = require('gulp'),
     plumber       = require('gulp-plumber'),
     less          = require('gulp-less'),
     sourcemaps    = require('gulp-sourcemaps'),
@@ -14,14 +14,12 @@ var gulp            = require('gulp'),
  * Paths
  */
 var resources     = './resources',
-    vendor        = './resources/vendor',
-    public_css    = './app/assets/css',
-    public_vendor = './app/assets/vendor';
+    public_css    = './public/stylesheets',
+    public_vendor = './public/vendor';
 
 gulp.task('default', function () {
     gulp.watch(resources + '/less/**/*.less', ['less']);
 });
-
 
 /**
  * Tasks
