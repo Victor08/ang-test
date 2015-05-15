@@ -1,6 +1,6 @@
 bower_components/
 node_modules/
 npm-debug.log
-*/assets/vendor/
+*/**/vendor/
 .idea
 .DS_Store
