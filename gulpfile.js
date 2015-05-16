@@ -24,7 +24,7 @@ gulp.task('default', function () {
 /**
  * Tasks
  */
-gulp.task('default',['public','less'], function () {
+gulp.task('default',['less','public'], function () {
     gulp.watch(resources + '/less/**/*.less', ['less']);
 });
 gulp.task('less', function () {

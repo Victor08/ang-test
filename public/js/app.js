@@ -4,11 +4,11 @@ var tweetApp = angular.module('twitty',['ngResource', 'ngRoute', 'twitController
 tweetApp.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/tweets', {
-            templateUrl: 'templates/list/main.html',
+            templateUrl: '/template/list/main.html',
             controller: 'listCtrl'
         })
         .when('/', {
-            templateUrl: 'templates/list/main.html',
+            templateUrl: '/template/list/main.html',
             controller: 'listCtrl'
         })
 }]);
