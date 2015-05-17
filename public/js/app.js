@@ -8,7 +8,7 @@ tweetApp.config(['$routeProvider', function($routeProvider){
             controller: 'listCtrl'
         })
         .when('/', {
-            templateUrl: '/template/list/main.html',
+            templateUrl: '/template/list/index.html',
             controller: 'listCtrl'
         })
 }]);
