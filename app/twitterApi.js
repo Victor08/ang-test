@@ -1,9 +1,57 @@
-var TwitterApi = function(){};
+var _ = require('lodash');
+
+var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
+    _.merge(this.config, {
+        userId: userId,
+        screenName: screenName,
+        oauthAccessToken: oauthAccessToken,
+        oauthAccessTokenSecret: oauthAccessTokenSecret,
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret
+    });
+
+    this.config.whitelist.append('statuses/user_timeline.json?user_id=' + this.config.userId + '&screen_name=' + this.config.screenName + '&count=' + this.config.count);
+};
+
+TwitterApi.prototype.config = {
+    whitelist: [],
+    useWhitelist: true,
+    baseUrl: 'https://api.twitter.com/1.1/',
+    count: 5
+};
 
 TwitterApi.prototype = {
-    test: function(){
-        console.log('test baby');
+
+    buildBaseString: function(baseUrl, method, params){
+        var result = [];
+        _.each(params, function (val, key){
+            result.append(key + '=' + encodeURIComponent(val));
+        });
+        return method + '&' + encodeURIComponent(baseUrl) + '&' + encodeURIComponent(result.join('&'));
+    },
+
+    buildOauthHeader: function(oauth){
+        var result = 'Authorization: OAuth ';
+        var values = [];
+        _.each(oauth, function(val, key){
+            values.append(key + '="' + encodeURIComponent(val) + '"');
+        });
+        result = result.concat(values.join(', '));
+        return result;
+    },
+
+    apiGet: function(url) {
+        if (_.isUndefined(url)) {
+            console.error('url is not defined');
+            return;
+        }
+        if (this.config.whitelist.indexOf(url) == -1) {
+            console.error('url is restricted');
+            return;
+        }
+
     }
+
 };
 
 module.exports = new TwitterApi();
