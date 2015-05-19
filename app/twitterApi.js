@@ -12,7 +12,7 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
 
     this.config.whitelist.append('statuses/user_timeline.json?user_id=' + this.config.userId + '&screen_name=' + this.config.screenName + '&count=' + this.config.count);
 
-    this.requestUrl = requestUrl;
+    this.requestPath = requestPath;
 };
 
 TwitterApi.prototype.config = {
@@ -47,7 +47,7 @@ TwitterApi.prototype = {
     },
 
     apiGet: function(url) {
-        var baseUrl = this.baseUrl + window
+        var baseUrl = this.baseUrl + this.requestPath;
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
@@ -67,7 +67,7 @@ TwitterApi.prototype = {
             oauth_version: '1.0'
         };
 
-        var baseInfo = this.buildBaseString(this.baseUrl)
+        var baseInfo = this.buildBaseString(baseUrl, 'GET', )
     }
 
 };
