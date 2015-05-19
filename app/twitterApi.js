@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
+var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count, requestPath){
     _.merge(this.config, {
         userId: userId,
         screenName: screenName,
@@ -11,6 +11,8 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
     });
 
     this.config.whitelist.append('statuses/user_timeline.json?user_id=' + this.config.userId + '&screen_name=' + this.config.screenName + '&count=' + this.config.count);
+
+    this.requestUrl = requestUrl;
 };
 
 TwitterApi.prototype.config = {
@@ -21,6 +23,10 @@ TwitterApi.prototype.config = {
 };
 
 TwitterApi.prototype = {
+
+    test: function(){
+        console.log('my request url', this.requestUrl);
+    },
 
     buildBaseString: function(baseUrl, method, params){
         var result = [];
@@ -41,6 +47,8 @@ TwitterApi.prototype = {
     },
 
     apiGet: function(url) {
+        var baseUrl = this.baseUrl + window
+
         if (_.isUndefined(url)) {
             console.error('url is not defined');
             return;
@@ -50,6 +58,16 @@ TwitterApi.prototype = {
             return;
         }
 
+        var oauth = {
+            oauth_consumer_key: this.config.consumerKey,
+            oauth_nonce: new Date().getTime(),
+            oauth_signature_method: 'HMAC-SHA1',
+            oauth_token: this.config.oauthAccessToken,
+            oauth_timestamp: new Date().getTime(),
+            oauth_version: '1.0'
+        };
+
+        var baseInfo = this.buildBaseString(this.baseUrl)
     }
 
 };
