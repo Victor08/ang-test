@@ -1,6 +1,9 @@
-var _ = require('lodash');
+var _           = require('lodash');
+var cryptojs    = require('cryptojs');
+var http        = require('http');
+var querystring = require('querystring');
 
-var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count, requestPath){
+var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
     _.merge(this.config, {
         userId: userId,
         screenName: screenName,
@@ -46,8 +49,7 @@ TwitterApi.prototype = {
         return result;
     },
 
-    apiGet: function(url) {
-        var baseUrl = this.baseUrl + this.requestPath;
+    apiGet: function(url, urlPath, queryParams) {
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
@@ -57,6 +59,8 @@ TwitterApi.prototype = {
             console.error('url is restricted');
             return;
         }
+        var baseUrl = this.baseUrl + this.requestPath;
+        var fullUrl = this.baseUrl + url;
 
         var oauth = {
             oauth_consumer_key: this.config.consumerKey,
@@ -67,7 +71,19 @@ TwitterApi.prototype = {
             oauth_version: '1.0'
         };
 
-        var baseInfo = this.buildBaseString(baseUrl, 'GET', )
+        var baseInfo = this.buildBaseString(baseUrl, 'GET', _.merge(oauth, queryParams));
+        var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
+        var sha1 = cryptojs.HmacSHA1(baseInfo, compositeKey);
+        oauth['oauth_signature'] = sha1.toString(cryptojs.enc.Base64);
+
+        var header = [
+            this.buildOauthHeader(oauth),
+            'Expect:'
+        ];
+
+        var request = http.get(fullUrl, function(response){
+            return response
+        })
     }
 
 };
