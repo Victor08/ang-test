@@ -11,7 +11,11 @@ var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
     count = 10;
 
 
-router.get('/', function(req, res, next) {
+
+router.get('/statuses/user_timeline.json', function(req, res, next) {
+
+    var
+
     twitProcess = '';
 });
 
