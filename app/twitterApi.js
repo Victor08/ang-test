@@ -49,7 +49,7 @@ TwitterApi.prototype = {
         return result;
     },
 
-    apiGet: function(url, urlPath, queryParams) {
+    get: function(url, urlPath, queryParams) {
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
@@ -88,4 +88,4 @@ TwitterApi.prototype = {
 
 };
 
-module.exports = new TwitterApi();
+module.exports = TwitterApi;

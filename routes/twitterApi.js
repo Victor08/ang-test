@@ -10,13 +10,16 @@ var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
     screenName = 'imtiredofthinki',
     count = 10;
 
-
-
 router.get('/statuses/user_timeline.json', function(req, res, next) {
 
-    var
+    var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
 
-    twitProcess = '';
+    var response = api.get(req.originalUrl, req.path, req.params);
+
+    console.log(response);
+
+    res.send(response);
+
 });
 
 module.exports = router;
