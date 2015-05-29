@@ -8,9 +8,11 @@ twitControllers.controller('resourceCtrl', function($scope, Tweet) {
 
 });
 
-twitControllers.controller('listCtrl', ['$scope', '$http', function($scope, $http){
-    console.log('list ctrl');
-    $scope.cool = 'follow the white rabbit';
+twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline', function($scope, $http, resource){
+    console.log('user timeline ctrl');
+    $scope.list = resource.get();
+    $scope.test = 'ololo';
+
 }]);
 
 twitControllers.controller('deleteCtrl', ['$scope', '$routeParams', function($scope, $routeParams){

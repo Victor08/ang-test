@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var twitterApi = require('./app/twitterApi');
+var twitterApi = require('/app/twitterApi');
 
 var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
     oauthConsumerSecret = 'VzHrDKflFYTQ8mgKn1wArE4pHFyWoQxi8PbdYN7w6vdCDwKDjb',
