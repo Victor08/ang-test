@@ -3,7 +3,10 @@ var cryptojs    = require('cryptojs');
 var http        = require('http');
 var querystring = require('querystring');
 
+var util = require('util');
+
 var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
+    console.log('building twitter api');
     _.merge(this.config, {
         userId: userId,
         screenName: screenName,
@@ -13,17 +16,11 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
         consumerSecret: consumerSecret
     });
 
-    this.config.whitelist.append('statuses/user_timeline.json?user_id=' + this.config.userId + '&screen_name=' + this.config.screenName + '&count=' + this.config.count);
+    console.log('arrays merged', util.inspect(this.config, false, null) );
 
-    this.requestPath = requestPath;
 };
 
-TwitterApi.prototype.config = {
-    whitelist: [],
-    useWhitelist: true,
-    baseUrl: 'https://api.twitter.com/1.1/',
-    count: 5
-};
+
 
 TwitterApi.prototype = {
 
@@ -50,6 +47,7 @@ TwitterApi.prototype = {
     },
 
     get: function(url, urlPath, queryParams) {
+        console.log('now getting twits');
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
@@ -59,7 +57,7 @@ TwitterApi.prototype = {
             console.error('url is restricted');
             return;
         }
-        var baseUrl = this.baseUrl + this.requestPath;
+        var baseUrl = this.baseUrl + urlPath;
         var fullUrl = this.baseUrl + url;
 
         var oauth = {
@@ -87,5 +85,8 @@ TwitterApi.prototype = {
     }
 
 };
-
+TwitterApi.prototype.config = {
+    baseUrl: 'https://api.twitter.com/1.1/',
+    count: 5
+};
 module.exports = TwitterApi;

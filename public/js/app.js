@@ -5,10 +5,10 @@ tweetApp.config(['$routeProvider', function($routeProvider){
     $routeProvider
         .when('/tweets', {
             templateUrl: '/template/list/main.html',
-            controller: 'listCtrl'
+            controller: 'userTimelineCtrl'
         })
         .when('/', {
             templateUrl: '/template/list/index.html',
-            controller: 'listCtrl'
+            controller: 'userTimelineCtrl'
         })
 }]);

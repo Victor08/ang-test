@@ -12,6 +12,7 @@ twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline
     console.log('user timeline ctrl');
     $scope.list = resource.get();
     $scope.test = 'ololo';
+    $scope.cool = 123123;
 
 }]);
 

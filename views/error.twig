@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" ng-app="twitty">
+<head>
+    <meta charset="utf-8">
+    <title>Tweet app</title>
+
+    <link rel="stylesheet" href="/static/stylesheets/index.css">
+
+</head>
+<body>
+
+<div id="top-navbar">
+
+</div>
+
+<div id="main-content" class="container">
+    <h3>{{ message }}</h3>
+    {% if error %}
+    <p>
+        <pre>
+            {{ error }}
+        </pre>
+    </p>
+    {% endif %}
+</div>
+
+</body>
+</html>
