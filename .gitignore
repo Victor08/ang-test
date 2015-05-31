@@ -2,5 +2,6 @@ bower_components/
 node_modules/
 npm-debug.log
 */**/vendor/
+vendor/
 .idea
 .DS_Store
