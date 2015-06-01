@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development node ./bin/www",
+    "start": "NODE_ENV=development supervisor -w routes,public/js,bin/www,app,app.js ./bin/www",
     "postInstall": "bower install"
   },
   "repository": "https://github.com/Victor08/ang-test.git",
@@ -17,6 +17,7 @@
     "http-server": "^0.6.1",
     "lodash": "~3",
     "merge-stream": "~0.1.7",
+    "supervisor": "^0.6.0",
     "util": "^0.10.3"
   },
   "dependencies": {

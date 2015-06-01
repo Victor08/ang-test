@@ -16,7 +16,7 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
         consumerSecret: consumerSecret
     });
 
-    console.log('arrays merged', util.inspect(this.config, false, null) );
+    //console.log('arrays merged', util.inspect(this.config, false, null) );
 
 };
 
@@ -47,46 +47,55 @@ TwitterApi.prototype = {
     },
 
     get: function(url, urlPath, queryParams) {
+
+        var that = this;
         console.log('now getting twits');
+        //console.log('url: ', url, '\nurlPath: ', urlPath, '\nqueryParams: ', queryParams);
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
             return;
         }
-        if (this.config.whitelist.indexOf(url) == -1) {
-            console.error('url is restricted');
-            return;
-        }
-        var baseUrl = this.baseUrl + urlPath;
-        var fullUrl = this.baseUrl + url;
 
+        var baseUrl = this.config.baseUrl + urlPath;
+        var fullUrl = this.config.baseUrl + url;
+
+        //console.log('baseUrl', baseUrl, '\nfullUrl: ', fullUrl);
+        var now = new Date().getTime();
+        console.log('now', now);
+        console.log('this config', this.config);
         var oauth = {
-            oauth_consumer_key: this.config.consumerKey,
-            oauth_nonce: new Date().getTime(),
+            oauth_consumer_key: that.config.consumerKey,
+            oauth_nonce: now,
             oauth_signature_method: 'HMAC-SHA1',
-            oauth_token: this.config.oauthAccessToken,
-            oauth_timestamp: new Date().getTime(),
+            oauth_token: that.config.oauthAccessToken,
+            oauth_timestamp: now,
             oauth_version: '1.0'
         };
 
+        console.log('oauth', util.inspect(oauth));
+
         var baseInfo = this.buildBaseString(baseUrl, 'GET', _.merge(oauth, queryParams));
-        var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
-        var sha1 = cryptojs.HmacSHA1(baseInfo, compositeKey);
-        oauth['oauth_signature'] = sha1.toString(cryptojs.enc.Base64);
+        console.log('base info', baseInfo);
+        //var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
+        //var sha1 = cryptojs.HmacSHA1(baseInfo, compositeKey);
+        //oauth['oauth_signature'] = sha1.toString(cryptojs.enc.Base64);
+        //
+        //var header = [
+        //    this.buildOauthHeader(oauth),
+        //    'Expect:'
+        //];
 
-        var header = [
-            this.buildOauthHeader(oauth),
-            'Expect:'
-        ];
+        //var request = http.get(fullUrl, function(response){
+        //    return response
+        //})
 
-        var request = http.get(fullUrl, function(response){
-            return response
-        })
+        return '123123';
     }
 
 };
 TwitterApi.prototype.config = {
-    baseUrl: 'https://api.twitter.com/1.1/',
+    baseUrl: 'https://api.twitter.com/1.1',
     count: 5
 };
 module.exports = TwitterApi;
