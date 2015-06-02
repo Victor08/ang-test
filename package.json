@@ -17,6 +17,7 @@
     "http-server": "^0.6.1",
     "lodash": "~3",
     "merge-stream": "~0.1.7",
+    "node-inspector": "^0.10.1",
     "supervisor": "^0.6.0",
     "util": "^0.10.3"
   },

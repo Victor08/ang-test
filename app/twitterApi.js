@@ -29,10 +29,13 @@ TwitterApi.prototype = {
     },
 
     buildBaseString: function(baseUrl, method, params){
+        console.log('building base string');
         var result = [];
+
         _.each(params, function (val, key){
             result.append(key + '=' + encodeURIComponent(val));
         });
+        console.log('result', result);
         return method + '&' + encodeURIComponent(baseUrl) + '&' + encodeURIComponent(result.join('&'));
     },
 
@@ -62,8 +65,8 @@ TwitterApi.prototype = {
 
         //console.log('baseUrl', baseUrl, '\nfullUrl: ', fullUrl);
         var now = new Date().getTime();
-        console.log('now', now);
-        console.log('this config', this.config);
+        //console.log('now', now);
+        //console.log('this config', this.config);
         var oauth = {
             oauth_consumer_key: that.config.consumerKey,
             oauth_nonce: now,
@@ -73,7 +76,7 @@ TwitterApi.prototype = {
             oauth_version: '1.0'
         };
 
-        console.log('oauth', util.inspect(oauth));
+        //console.log('oauth', util.inspect(oauth));
 
         var baseInfo = this.buildBaseString(baseUrl, 'GET', _.merge(oauth, queryParams));
         console.log('base info', baseInfo);
