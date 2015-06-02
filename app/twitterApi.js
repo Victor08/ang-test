@@ -1,5 +1,5 @@
 var _           = require('lodash');
-var cryptojs    = require('cryptojs');
+var cryptojs    = require('./CryptoJS/hmacSHA1.js');
 var http        = require('http');
 var querystring = require('querystring');
 
@@ -20,12 +20,10 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
 
 };
 
-
-
 TwitterApi.prototype = {
 
     test: function(){
-        console.log('my request url', this.requestUrl);
+        console.log('my reques url', this.requestUrl);
     },
 
     buildBaseString: function(baseUrl, method, params){
@@ -33,7 +31,7 @@ TwitterApi.prototype = {
         var result = [];
 
         _.each(params, function (val, key){
-            result.append(key + '=' + encodeURIComponent(val));
+            result.push(key + '=' + encodeURIComponent(val));
         });
         console.log('result', result);
         return method + '&' + encodeURIComponent(baseUrl) + '&' + encodeURIComponent(result.join('&'));
@@ -79,19 +77,21 @@ TwitterApi.prototype = {
         //console.log('oauth', util.inspect(oauth));
 
         var baseInfo = this.buildBaseString(baseUrl, 'GET', _.merge(oauth, queryParams));
-        console.log('base info', baseInfo);
-        //var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
-        //var sha1 = cryptojs.HmacSHA1(baseInfo, compositeKey);
-        //oauth['oauth_signature'] = sha1.toString(cryptojs.enc.Base64);
-        //
-        //var header = [
-        //    this.buildOauthHeader(oauth),
-        //    'Expect:'
-        //];
+        //console.log('base info', baseInfo);
+        var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
+        //console.log('fksdhflsd', cryptojs.HmacSHA1);
+        var sha1 = cryptojs.HmacSHA1(baseInfo, compositeKey);
+        console.log('wake up neo', sha1);
+        oauth['oauth_signature'] = sha1.toString(cryptojs.enc.Base64);
 
-        //var request = http.get(fullUrl, function(response){
-        //    return response
-        //})
+        var header = [
+            this.buildOauthHeader(oauth),
+            'Expect:'
+        ];
+
+        var request = http.get(fullUrl, function(response){
+            return response
+        });
 
         return '123123';
     }
