@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development supervisor -w routes,public/js,bin/www,app,app.js ./bin/www",
+    "start": "NODE_ENV=development nodemon --debug ./bin/www",
     "postInstall": "bower install"
   },
   "repository": "https://github.com/Victor08/ang-test.git",
@@ -27,6 +27,7 @@
     "debug": "~2.1.1",
     "express": "^4.12.3",
     "morgan": "~1.5.1",
+    "q": "^1.4.1",
     "serve-favicon": "~2.2.0",
     "twig": "^0.8.2"
   }

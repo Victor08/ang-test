@@ -10,7 +10,7 @@ twitControllers.controller('resourceCtrl', function($scope, Tweet) {
 
 twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline', function($scope, $http, resource){
     console.log('user timeline ctrl');
-    $scope.list = resource.get();
+    $scope.list = resource.get() || 'error';
     $scope.test = 'ololo';
     $scope.cool = 123123;
 
