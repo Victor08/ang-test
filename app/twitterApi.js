@@ -75,21 +75,29 @@ TwitterApi.prototype = {
                     if (response.access_token) {
                         deferred.resolve(response.access_token);
                     } else {
-                        return false;
+                        deferred.reject(new Error('bearer token can not be found in server response'));
                     }
                 } catch (e) {
                     console.error('cant parse server response');
+                    deferred.reject(new Error('unable to parse server response'));
                 }
             })
         }).on('error', function(e){
             console.error(e.message);
+            deferred.reject(new Error('Error: ' + e.message));
         });
 
         request.write('');
         request.end();
+
+        return deferred.promise;
+
+
     },
 
     get: function(url, urlPath, queryParams) {
+
+        var deferred = q.defer();
 
         var that = this;
 
@@ -122,28 +130,50 @@ TwitterApi.prototype = {
 
         var query = '?user_id' + this.config.userId + '&count=' + this.config.count;
 
-        https.get({
-            host: 'api.twitter.com',
-            path: '/1.1' + urlPath + '?' + query,
-            method: 'GET',
-                headers: {
-                    'User-Agent': 'ang-test v0.0.1',
-                    'Authorization': 'Bearer ' + bearerToken
-                }
-        },
-            function(res){
-                res.setEncoding('utf8');
-                res.on('data', function(data){
-                    var present = data.toString();
-                    console.log('now i have data', data.toString());
+        var message = ""; // variable that collects chunks
+        var tweetSeparator = "\r";
+        var tweets = {};
+
+        bearerToken.then(function(token){
+
+
+            https.get({
+                    host: 'api.twitter.com',
+                    path: '/1.1' + urlPath + '?' + query + '&q=nbc',
+                    method: 'GET',
+                    headers: {
+                        'User-Agent': 'ang-test v0.0.1',
+                        'Authorization': 'Bearer ' + token
+                    }
+                },
+                function(res){
+                    res.setEncoding('utf8');
+                    res.on('data', function(chunk){
+                        message += chunk;
+
+                        //var tweetSeparatorIndex = message.indexOf(tweetSeparator);
+                        //var didFindTweet = tweetSeparatorIndex != -1;
+                        //
+                        //if (didFindTweet) {
+                        //    var tweet = message.slice(0, tweetSeparatorIndex);
+                        //    tweets.push(tweet);
+                        //    message = message.slice(tweetSeparatorIndex + 1);
+                        //}
+
+                    });
+                    res.on('end', function(){
+                        tweets = JSON.parse(message);
+                        deferred.resolve(tweets);
+                    })
+                }).on('error', function(e) {
+                    console.error(e.message);
+                    deferred.reject(new Error('Error: ' + e.message));
                 });
-            return true;
-        }).on('error', function(e) {
-            console.error(e.message);
         });
 
-        return false;
+        return deferred.promise;
     }
+
 
 };
 TwitterApi.prototype.config = {

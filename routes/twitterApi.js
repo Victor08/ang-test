@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var twitterApi = require('../app/twitterApi');
 
-var util = require('util');
-
 var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
     oauthConsumerSecret = 'VzHrDKflFYTQ8mgKn1wArE4pHFyWoQxi8PbdYN7w6vdCDwKDjb',
     oauthAccessToken = '3241763915-5cyVKbNOR7shvLT5KqPpDR4xtrDbs0kAJrPadWM',
@@ -23,9 +21,24 @@ router.get('/statuses/user_timeline.json', function(req, res, next) {
     console.log('this is response', response);
 
     console.log(response);
+    response.then(function(data){
+        res.send(data);
+    });
 
-    res.send(response);
 
+});
+
+router.get('/search/tweets.json', function(req, res, next) {
+    console.log('now getting timeline');
+    var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
+
+    var fullUrl = req.originalUrl.replace(req.baseUrl, '');
+
+    var response = api.get(fullUrl, req.path, req.query);
+
+    response.then(function(data){
+        res.send(data);
+    });
 
 
 });
