@@ -106,37 +106,12 @@ TwitterApi.prototype = {
             return;
         }
 
-        var baseUrl = this.config.baseUrl + urlPath;
-        var fullUrl = this.config.baseUrl + url;
-
-        var now = new Date().getTime();
-
         var bearerToken = this.getBearerToken();
-
-
-
-        //var oauth = {
-        //    oauth_consumer_key: that.config.consumerKey,
-        //    oauth_nonce: now,
-        //    oauth_signature_method: 'HMAC-SHA1',
-        //    oauth_token: that.config.oauthAccessToken,
-        //    oauth_timestamp: now,
-        //    oauth_version: '1.0'
-        //};
-        //
-        //var baseInfo = this.buildBaseString(baseUrl, 'GET', _.merge(oauth, queryParams));
-        //var compositeKey = encodeURIComponent(this.config.consumerSecret) + '&' + encodeURIComponent(this.config.oauthAccessTokenSecret);
-        //oauth['oauth_signature'] = crypto.createHmac('sha1', compositeKey).update(baseInfo).digest('base64');
 
         var query = '?user_id' + this.config.userId + '&count=' + this.config.count;
 
-        var message = ""; // variable that collects chunks
-        var tweetSeparator = "\r";
-        var tweets = {};
-
         bearerToken.then(function(token){
-
-
+            var message = ""; // variable that collects chunks
             https.get({
                     host: 'api.twitter.com',
                     path: '/1.1' + urlPath + '?' + query + '&q=nbc',
@@ -150,19 +125,9 @@ TwitterApi.prototype = {
                     res.setEncoding('utf8');
                     res.on('data', function(chunk){
                         message += chunk;
-
-                        //var tweetSeparatorIndex = message.indexOf(tweetSeparator);
-                        //var didFindTweet = tweetSeparatorIndex != -1;
-                        //
-                        //if (didFindTweet) {
-                        //    var tweet = message.slice(0, tweetSeparatorIndex);
-                        //    tweets.push(tweet);
-                        //    message = message.slice(tweetSeparatorIndex + 1);
-                        //}
-
                     });
                     res.on('end', function(){
-                        tweets = JSON.parse(message);
+                        var tweets = JSON.parse(message);
                         deferred.resolve(tweets);
                     })
                 }).on('error', function(e) {

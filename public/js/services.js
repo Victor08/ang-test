@@ -10,7 +10,7 @@ twitServices.factory('UserTimeline', ['$resource', function($resource) {
 }]);
 
 twitServices.factory('SearchTweets', ['$resource', function($resource) {
-    return $resource('/twitterapi/search/tweets.json', {}, {
+    return $resource('/twitterapi/search/tweets.json:query', {}, {
         get: {
             method: 'GET'
         }

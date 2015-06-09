@@ -1,9 +1,12 @@
 <main-header>wake up neo</main-header>
-<div class="row">
-    <div class="col-md-12" ng-controller="userTimelineCtrl">
-        {{ test }} <br/>
-        this is my list: {{ list }} <br/>
-        search {{ search }}
+
+<div class="row" ng-controller="userTimelineCtrl">
+    <div class="col-md-6">
+        <label class="control-label">Follow the white rabbit man</label>
+        <input class="form-control" type="text" ng-model="twitterSearch">
+        <button class="btn btn-primary" ng-click="launchSearch()">Search now for truth!</button>
+
     </div>
+
 </div>
-<p>{{ cool }}</p>
+
