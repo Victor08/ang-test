@@ -108,13 +108,13 @@ TwitterApi.prototype = {
 
         var bearerToken = this.getBearerToken();
 
-        var query = '?user_id' + this.config.userId + '&count=' + this.config.count;
+        var query = '&user_id=' + this.config.userId + '&count=' + this.config.count;
 
         bearerToken.then(function(token){
             var message = ""; // variable that collects chunks
             https.get({
                     host: 'api.twitter.com',
-                    path: '/1.1' + urlPath + '?' + query + '&q=nbc',
+                    path: '/1.1' + url + query,
                     method: 'GET',
                     headers: {
                         'User-Agent': 'ang-test v0.0.1',

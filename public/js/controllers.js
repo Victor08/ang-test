@@ -14,7 +14,7 @@ twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline
     $scope.twitterSearch = '';
 
     var getTwitterSearch = function(query){
-        return search.get({query: '?q=' + query});
+        return search.get({query: 'q=' + query});
     };
 
     var renderTwitterSearch = function(response) {
@@ -23,7 +23,7 @@ twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline
 
     $scope.launchSearch = function(){
         getTwitterSearch($scope.twitterSearch)
-            .then(renderTwitterSearch(response))
+            //.then(renderTwitterSearch(response));
     };
 
 
