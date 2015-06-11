@@ -1,5 +1,4 @@
 var _           = require('lodash');
-var crypto      = require('crypto');
 var https       = require('https');
 var http        = require('http');
 var querystring = require('querystring');
@@ -20,31 +19,6 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
 
 TwitterApi.prototype = {
 
-    test: function(){
-        console.log('my reques url', this.requestUrl);
-    },
-
-    buildBaseString: function(baseUrl, method, params){
-        console.log('building base string');
-        var result = [];
-
-        _.each(params, function (val, key){
-            result.push(key + '=' + encodeURIComponent(val));
-        });
-        console.log('result', result);
-        return method + '&' + encodeURIComponent(baseUrl) + '&' + encodeURIComponent(result.join('&'));
-    },
-
-    buildOauthHeader: function(oauth){
-        var result = 'Authorization: OAuth ';
-        var values = [];
-        _.each(oauth, function(val, key){
-            values.append(key + '="' + encodeURIComponent(val) + '"');
-        });
-        result = result.concat(values.join(', '));
-        return result;
-    },
-
     getBearerToken: function(){
         var deferred = q.defer();
 
@@ -62,13 +36,11 @@ TwitterApi.prototype = {
             method: 'POST',
             headers: {
                 'User-Agent': 'ang-test v0.0.1',
-                'Authorization': 'Basic ' + bearerTokenCredentials + 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8',
-                //'Content-length': query.length
+                'Authorization': 'Basic ' + bearerTokenCredentials + 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'
             }
         }, function(res){
             res.setEncoding('utf8');
             res.on('data',function(data){
-                console.log('now i have data', data);
                 var response = {};
                 try {
                     response = JSON.parse(data);
@@ -91,15 +63,11 @@ TwitterApi.prototype = {
         request.end();
 
         return deferred.promise;
-
-
     },
 
     get: function(url, urlPath, queryParams) {
 
         var deferred = q.defer();
-
-        var that = this;
 
         if (_.isUndefined(url)) {
             console.error('url is not defined');
@@ -111,7 +79,7 @@ TwitterApi.prototype = {
         var query = '&user_id=' + this.config.userId + '&count=' + this.config.count;
 
         bearerToken.then(function(token){
-            var message = ""; // variable that collects chunks
+            var message = "";
             https.get({
                     host: 'api.twitter.com',
                     path: '/1.1' + url + query,
@@ -138,11 +106,8 @@ TwitterApi.prototype = {
 
         return deferred.promise;
     }
-
-
 };
 TwitterApi.prototype.config = {
-    baseUrl: 'https://api.twitter.com/1.1',
     count: 5
 };
 module.exports = TwitterApi;
