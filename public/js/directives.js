@@ -7,3 +7,10 @@ twitDirectives.directive('mainHeader', function(){
         restrict: 'E'
     };
 });
+
+twitDirectives.directive('tweetStatus', function(){
+   return {
+        templateUrl: 'template/elements/tweetStatus.html',
+        restrict: 'E'
+   }
+});

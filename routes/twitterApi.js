@@ -40,7 +40,6 @@ router.get('/search/tweets.json', function(req, res, next) {
         res.send(data);
     });
 
-
 });
 
 module.exports = router;
