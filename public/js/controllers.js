@@ -12,15 +12,15 @@ twitControllers.controller('userTimelineCtrl', ['$scope', '$http', 'UserTimeline
     console.log('user timeline ctrl');
 
     $scope.twitterSearch = '';
-    $scope.tweets = {};
+    //$scope.tweets = {};
 
     var getTwitterSearch = function(query){
         return search.get({query: 'q=' + query});
     };
 
     $scope.launchSearch = function(){
-        var response = search.get({query: 'q=' + $scope.twitterSearch})
-        $scope.tweets = response.statuses;
+        var response = search.get({query: 'q=' + $scope.twitterSearch});
+        $scope.tweets = response;
         console.log('scope tweets', $scope.tweets, '\n', response);
     };
 

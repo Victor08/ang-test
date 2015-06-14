@@ -6,7 +6,7 @@
         <input class="form-control" type="text" ng-model="twitterSearch">
         <button class="btn btn-primary" ng-click="launchSearch()">Search now for truth!</button>
     </div>
-    <div class="col-md-12" ng-repeat="tweet in tweets">
+    <div class="col-md-12" ng-repeat="tweet in tweets.statuses">
         <tweet-status></tweet-status>
     </div>
 
