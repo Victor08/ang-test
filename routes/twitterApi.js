@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var twitterApi = require('../app/twitterApi');
 
+
 var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
     oauthConsumerSecret = 'VzHrDKflFYTQ8mgKn1wArE4pHFyWoQxi8PbdYN7w6vdCDwKDjb',
     oauthAccessToken = '3241763915-5cyVKbNOR7shvLT5KqPpDR4xtrDbs0kAJrPadWM',
@@ -39,6 +40,10 @@ router.get('/search/tweets.json', function(req, res, next) {
     response.then(function(data){
         res.send(data);
     });
+
+});
+
+router.get('/statuses/user_timeline.json', function(req, res, next){
 
 });
 

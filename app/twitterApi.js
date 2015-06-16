@@ -3,6 +3,7 @@ var https       = require('https');
 var http        = require('http');
 var querystring = require('querystring');
 var q           = require('q');
+var oauth       = require('oauth-client');
 
 var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
     console.log('building twitter api');
@@ -18,6 +19,16 @@ var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessToken
 };
 
 TwitterApi.prototype = {
+
+    generateNonce: function(){
+        var text = "";
+        var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < 32; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    },
 
     getBearerToken: function(){
         var deferred = q.defer();
@@ -65,7 +76,55 @@ TwitterApi.prototype = {
         return deferred.promise;
     },
 
-    get: function(url, urlPath, queryParams) {
+    getRequestToken: function(){
+        var deferred = q.defer();
+
+        var consumer = oauth.createConsumer(this.config.consumerKey, this.config.consumerSecret);
+        var oauthSignature = oauth.createHmac(consumer);
+
+
+
+        var request = {
+            method: 'POST',
+            host: 'api.twitter.com',
+            path: '/oauth/request_token',
+            'User-Agent': 'ang-test v0.0.1',
+            Authorization: 'oauth_callback="' + encodeURIComponent('http://localhost:3000/#/userTweets') + '",' +
+                'oauth_consumer_key="' + encodeURIComponent(this.config.consumerKey) + '",' +
+            'oauth_nonce="' + this.generateNonce() + '",' +
+            'oauth_signature="' + encodeURIComponent(oauthSignature) + '",' +
+            'oauth_signature_method="HMAC-SHA1",' +
+            'oauth_timestamp="' + new Date().getTime() + '",' +
+            'oauth_version="1.0"'
+        };
+
+        request = oauth.request(request, function(res){
+            res.setEncoding('utf8');
+            res.on('data',function(data){
+                var response = {};
+                try {
+                    response = JSON.parse(data);
+                    if (response.access_token) {
+                        deferred.resolve(response.access_token);
+                    } else {
+                        deferred.reject(new Error('bearer token can not be found in server response'));
+                    }
+                } catch (e) {
+                    console.error('cant parse server response');
+                    deferred.reject(new Error('unable to parse server response'));
+                }
+            })
+        }).on('error', function(e){
+            console.error(e.message);
+            deferred.reject(new Error('Error: ' + e.message));
+        });
+        request.write('');
+        request.end();
+
+        return deferred.promise;
+    },
+
+    get: function(url) {
 
         var deferred = q.defer();
 
@@ -103,6 +162,14 @@ TwitterApi.prototype = {
                     deferred.reject(new Error('Error: ' + e.message));
                 });
         });
+
+        return deferred.promise;
+    },
+
+    requestByUser: function(url){
+        var deferred = q.defer();
+
+
 
         return deferred.promise;
     }
