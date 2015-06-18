@@ -1,5 +1,16 @@
 <main-header>wake up neo</main-header>
 
+<div class="row" ng-controller="userRequestCtrl">
+    <div class="col-md-6">
+        <label class="control-label">Blue or red, man?</label>
+        <input class="form-control" type="text" ng-model="twitterSearch">
+        <button class="btn btn-primary" ng-click="launchSearch()">wake up neo</button>
+    </div>
+    <div class="col-md-12" ng-repeat="tweet in tweets.statuses">
+        <tweet-status></tweet-status>
+    </div>
+</div>
+
 <div class="row" ng-controller="userTimelineCtrl">
     <div class="col-md-6">
         <label class="control-label">Follow the white rabbit man</label>
@@ -9,6 +20,5 @@
     <div class="col-md-12" ng-repeat="tweet in tweets.statuses">
         <tweet-status></tweet-status>
     </div>
-
 </div>
 

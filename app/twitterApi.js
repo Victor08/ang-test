@@ -3,7 +3,8 @@ var https       = require('https');
 var http        = require('http');
 var querystring = require('querystring');
 var q           = require('q');
-var oauth       = require('oauth-client');
+var oauth       = require('');
+var moment      = require('moment');
 
 var TwitterApi = function(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, consumerKey, consumerSecret, count){
     console.log('building twitter api');
@@ -85,20 +86,25 @@ TwitterApi.prototype = {
 
 
         var request = {
-            method: 'POST',
+
+            //port: 443,
+            //https: true,
             host: 'api.twitter.com',
+            method: 'POST',
             path: '/oauth/request_token',
-            'User-Agent': 'ang-test v0.0.1',
-            Authorization: 'oauth_callback="' + encodeURIComponent('http://localhost:3000/#/userTweets') + '",' +
+            headers: {
+                'User-Agent': 'ang-test v0.0.1',
+                Authorization: 'OAuth oauth_callback="' + encodeURIComponent('http://localhost:3000/#/userTweets') + '",' +
                 'oauth_consumer_key="' + encodeURIComponent(this.config.consumerKey) + '",' +
-            'oauth_nonce="' + this.generateNonce() + '",' +
-            'oauth_signature="' + encodeURIComponent(oauthSignature) + '",' +
-            'oauth_signature_method="HMAC-SHA1",' +
-            'oauth_timestamp="' + new Date().getTime() + '",' +
-            'oauth_version="1.0"'
+                'oauth_nonce="' + this.generateNonce() + '",' +
+                'oauth_signature="' + encodeURIComponent(oauthSignature) + '",' +
+                'oauth_signature_method="HMAC-SHA1",' +
+                'oauth_timestamp="' + (moment.utc() / 1000) + '",' +
+                'oauth_version="1.0"'
+            }
         };
 
-        request = oauth.request(request, function(res){
+        request = https.request(request, function(res){
             res.setEncoding('utf8');
             res.on('data',function(data){
                 var response = {};
@@ -169,6 +175,12 @@ TwitterApi.prototype = {
     requestByUser: function(url){
         var deferred = q.defer();
 
+        var requestToken = this.getRequestToken();
+
+        requestToken.then(function(token){
+            console.log('my token', token);
+            deferred.resolve(token);
+        });
 
 
         return deferred.promise;
