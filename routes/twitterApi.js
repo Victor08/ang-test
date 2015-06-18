@@ -48,6 +48,8 @@ router.get('/statuses/user_timeline.json', function(req, res, next){
 
     var fullUrl = req.originalUrl.replace(req.baseUrl, '');
 
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
     var response = api.requestByUser(fullUrl);
 
     response.then(function(data){
