@@ -34,8 +34,9 @@ twitControllers.controller('userRequestCtrl', ['$scope', 'UserRequestTweets', fu
     };
 
     $scope.launchSearch = function(){
-        var response = UserRequestTweets.get({query: 'q=' + $scope.twitterSearch});
+        var response = UserRequestTweets.get({query: 'screen_name=' + $scope.twitterSearch});
         $scope.tweets = response;
+        console.log('scope tweets', $scope.tweets, '\n', response);
     };
 }]);
 

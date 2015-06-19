@@ -11,7 +11,8 @@ twitServices.factory('ApplicationRequestTweets', ['$resource', function($resourc
 twitServices.factory('UserRequestTweets', ['$resource', function($resource){
     return $resource('/twitterapi/statuses/user_timeline.json?:query', {}, {
         get: {
-            method: 'GET'
+            method: 'GET',
+            isArray: true
         }
     })
 }]);
