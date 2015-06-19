@@ -29,6 +29,7 @@ var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
 //
 //});
 
+
 router.get('/search/tweets.json', function(req, res, next) {
     console.log('now getting timeline');
     var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
@@ -44,13 +45,15 @@ router.get('/search/tweets.json', function(req, res, next) {
 });
 
 router.get('/statuses/user_timeline.json', function(req, res, next){
+    console.log('user timeline');
     var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
 
-    var fullUrl = req.originalUrl.replace(req.baseUrl, '');
+    var workingPath = req.originalUrl.replace(req.baseUrl, '');
+    var queryString = req.originalUrl.substring(req.originalUrl.indexOf('?'));
 
-    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    var fullUrl = req.protocol + '://' + req.get('host') + workingPath;
 
-    var response = api.requestByUser(fullUrl);
+    var response = api.requestByUser(fullUrl, queryString);
 
     response.then(function(data){
         res.send(data);
