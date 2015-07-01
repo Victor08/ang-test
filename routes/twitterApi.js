@@ -19,23 +19,23 @@ var client = new Twitter({
     access_token_secret: oauthAccessTokenSecret
 });
 
-//router.get('/statuses/user_timeline.json', function(req, res, next) {
-//    console.log('now getting timeline');
-//    var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
-//
-//    var fullUrl = req.originalUrl.replace(req.baseUrl, '');
-//
-//    var response = api.get(fullUrl, req.path, req.query);
-//
-//    console.log('this is response', response);
-//
-//    console.log(response);
-//    response.then(function(data){
-//        res.send(data);
-//    });
-//
-//
-//});
+router.get('/statuses/user_timeline.json', function(req, res, next){
+    console.log('user timeline');
+    var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
+
+    var workingPath = req.originalUrl.replace(req.baseUrl, '');
+    var queryString = req.originalUrl.substring(req.originalUrl.indexOf('?'));
+    var queryParams = req.query;
+
+    var fullUrl = 'https://api.twitter.com/1.1' + req.path;
+
+    var response = api.requestByUser(fullUrl, queryParams);
+
+    response.then(function(data){
+        res.send(data);
+    });
+
+});
 
 
 router.get('/search/tweets.json', function(req, res, next) {
@@ -49,22 +49,6 @@ router.get('/search/tweets.json', function(req, res, next) {
     response.then(function(data){
         res.send(data);
     });
-
-});
-
-router.get('/statuses/user_timeline.json', function(req, res, next){
-
-    client.get('statuses/user_timeline',{screen_name: req.query.screen_name}, function(error, tweet, response){
-        if (!error) {
-            console.log(tweet);
-            res.send(tweet);
-        }
-        if(error) {
-            console.log('fchn error', error);
-        }
-
-    })
-
 
 });
 
