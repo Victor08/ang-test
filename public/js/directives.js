@@ -14,3 +14,9 @@ twitDirectives.directive('tweetStatus', function(){
         restrict: 'E'
    }
 });
+
+twitDirectives.directive('horizontalMenu', function(){
+    return {
+        templateUrl: 'template/elements/horizontal-menu.html'
+    }
+})

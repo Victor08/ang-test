@@ -4,7 +4,7 @@ var root = './views';
 
 /* GET home page. */
 router.get('*', function(req, res, next) {
-    res.sendFile('layout.html', { root: root });
+    res.render('layout', { root: root });
 });
 
 module.exports = router;

@@ -43,3 +43,20 @@ twitControllers.controller('userRequestCtrl', ['$scope', 'UserRequestTweets', fu
 twitControllers.controller('deleteCtrl', ['$scope', '$routeParams', function($scope, $routeParams){
 
 }]);
+
+
+//twitControllers ('twtterNPMCtrl', ['$scope', ''])
+
+twitControllers.controller('horizontalMenuCtrl', ['$scope', '$location', 'myConfig', function ($scope, $location, Config) {
+    var location = $location.path();
+    $scope.menuItems = Config.menu;
+    _.each($scope.menuItems, function(item, key){
+         if (location.indexOf(item.route) > -1) {
+             $scope.menuItems.active = true;
+         }
+    });
+
+    console.log('scope menu items', $scope.menuItems);
+
+
+} ]);
