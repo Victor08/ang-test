@@ -15,7 +15,6 @@
     "gulp-plumber": "*",
     "gulp-sourcemaps": "*",
     "http-server": "^0.6.1",
-    "lodash": "~3",
     "merge-stream": "~0.1.7",
     "node-inspector": "^0.10.1",
     "nodemon": "^1.3.7",

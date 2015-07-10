@@ -18,6 +18,10 @@ twitServices.factory('UserRequestTweets', ['$resource', function($resource){
 }]);
 
 twitServices.factory('twitterNPMResource', ['$resource', function($resource){
-    return $resource('/twitter-npm')
-}])
+    return $resource('/twitter-npm', {}, {
+        get: {
+            method: 'GET'
+        }
+    })
+}]);
 

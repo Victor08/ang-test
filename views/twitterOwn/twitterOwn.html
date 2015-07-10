@@ -1,0 +1,20 @@
+<main-header>Self made app-only twitter auth</main-header>
+
+<horizontal-menu></horizontal-menu>
+
+<div class="row" ng-controller="userTimelineCtrl">
+
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Follow the white rabbit man</label>
+            <input class="form-control" type="text" ng-model="twitterSearch">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="launchSearch()">Search now for tweets!</button>
+        </div>
+    </div>
+    <div class="col-md-12" ng-repeat="tweet in tweets.statuses">
+        <tweet-status></tweet-status>
+    </div>
+</div>
+

@@ -1,7 +1,7 @@
 <div class="row" ng-controller="horizontalMenuCtrl">
     <div class="col-sm-12">
-        <ul class="nav nav-tabs" ng-repeat="item in menuItems">
-            <li ng-class="{ active: item.active  }"><a href="{{ item.route }}">{{ item.title }}</a></li>
+        <ul class="nav nav-tabs" >
+            <li ng-class="{ active: item.active  }" ng-repeat="item in menuItems"><a href="#{{ item.route }}">{{ item.title }}</a></li>
             </li><a href="#/tweets"></a></li>
         </ul>
     </div>

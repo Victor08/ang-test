@@ -1,12 +1,13 @@
 var menuConfig = angular.module('myConfig', []);
 
-menuConfig.constant('menu', [
+menuConfig.constant('menuConfig', [
+        {
+            title: 'twitterOwn',
+            route: '/twitter-own'
+        },
         {
             title: 'twitterNPM',
-            route: '#/twitter-npm'
-        },
-        {   title: 'twitterOwn',
-            route: '#/twitter-own'
+            route: '/twitter-npm'
         }
     ]
 );

@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var twitControllers = angular.module('twitControllers',[]);
+var twitControllers = angular.module('twitControllers',['myConfig']);
 
 twitControllers.controller('resourceCtrl', function($scope, Tweet) {
 
@@ -45,18 +45,25 @@ twitControllers.controller('deleteCtrl', ['$scope', '$routeParams', function($sc
 }]);
 
 
-//twitControllers ('twtterNPMCtrl', ['$scope', ''])
+twitControllers.controller('twitterNPMCtrl', ['$scope', 'twitterNPMResource', function($scope, resource){
+    $scope.twitterGet = function(path, params){
+        resource.get()
+    }
+}]);
 
-twitControllers.controller('horizontalMenuCtrl', ['$scope', '$location', 'myConfig', function ($scope, $location, Config) {
+twitControllers.controller('horizontalMenuCtrl', ['$scope', '$location', 'menuConfig', function ($scope, $location, menu) {
     var location = $location.path();
-    $scope.menuItems = Config.menu;
+    console.log('location', location);
+    $scope.menuItems = menu;
     _.each($scope.menuItems, function(item, key){
          if (location.indexOf(item.route) > -1) {
-             $scope.menuItems.active = true;
+             item.active = true;
+         } else {
+             item.active = false;
          }
     });
 
     console.log('scope menu items', $scope.menuItems);
 
-
 } ]);
+
