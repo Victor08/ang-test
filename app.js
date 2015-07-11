@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var twitterApi = require('./routes/twitterApi');
+var twitterNPM = require('./routes/twitterNPM');
 var template = express.static(path.join(__dirname, 'views'));
 var staticFiles = express.static(path.join(__dirname, 'public'));
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use('/template', template);
 app.use('/static', staticFiles);
 app.use('/twitterapi', twitterApi);
+app.use('/twitternpm', twitterNPM);
 app.use('*', index);
 
 // catch 404 and forward to error handler

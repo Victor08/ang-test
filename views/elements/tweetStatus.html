@@ -1,12 +1,18 @@
 <div class="row">
-    <div class="col-xs-2">
-
+    <div class="col-xs-2 col-md-1">
+        <div class="thumbnail">
+            <img ng-src="{{ tweet.user.profile_image_url_https }}"/>
+        </div>
     </div>
-    <div class="col-xs-10">
+    <div class="col-xs-10 col-md-11">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">{{ tweet.user.screen_name }}</h4>
-                <h4 class="panel-title pull-right">{{ tweet.created_at }}</h4>
+                <h4 class="panel-title">
+                    {{ tweet.user.screen_name }}
+                    <button type="button" class="close pull-right" ng-click="removeTweet(tweet.id_str)"><span>&times;</span></button>
+                    <span class="pull-right">{{ tweet.created_at }} &nbsp;&nbsp;</span>
+                    <div class="clearfix"></div>
+                </h4>
             </div>
             <div class="panel-body">
                 {{ tweet.text }}

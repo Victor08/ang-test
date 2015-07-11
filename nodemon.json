@@ -5,7 +5,9 @@
   ],
   "watch": [
     "node_modules/app",
-    "routes"
+    "routes",
+    "app.js",
+    "nodemon.json"
   ],
   "ext": "js json"
 }

@@ -37,19 +37,13 @@ router.get('/statuses/user_timeline.json', function(req, res, next){
 
 });
 
-
 router.get('/search/tweets.json', function(req, res, next) {
-    console.log('now getting timeline');
     var api = new twitterApi(userId, screenName, oauthAccessToken, oauthAccessTokenSecret, oauthConsumerKey, oauthConsumerSecret, count);
-
     var fullUrl = req.originalUrl.replace(req.baseUrl, '');
-
     var response = api.get(fullUrl, req.path, req.query);
-
     response.then(function(data){
         res.send(data);
     });
-
 });
 
 module.exports = router;

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var twitterApi = require('app/twitterApi');
 var Twitter = require('twitter');
+var Url = require('url');
 
 
 var oauthConsumerKey = 'RlTUNEyXQDMxaOdOHAUawMKbP',
@@ -19,10 +20,42 @@ var client = new Twitter({
     access_token_secret: oauthAccessTokenSecret
 });
 
-router.get('/', function(req, res, next){
-    client.get(req.path, function(error, tweets, response){
-        if(error) throw error;
-        console.log(tweets);  // Tweet body.
-        console.log(response);  // Raw response object.
-    })
+router.get('*', function(req, res, next){
+    var url = decodeURIComponent(req.originalUrl.replace(req.baseUrl, ''));
+    var urlParsed = Url.parse(url, true);
+
+    if (url.match(/^\/statuses\/user_timeline/)) {
+        client.get(urlParsed.pathname, urlParsed.query, function(error, tweets, response){
+
+            if(! error) {
+                res.send({statuses: tweets});
+            }
+        });
+        return;
+    }
+
+    if (url.match(/^\/statuses\/update/)) {
+        client.post(urlParsed.pathname, urlParsed.query, function(error, tweets, response) {
+            if (response.statusMessage === 'OK') {
+                res.send({status: 'OK', tweet: tweets});
+            }
+            if(error){
+                res.send({status: 'ERR', message: error})
+            }
+        });
+        return;
+    }
+
+    if (url.match(/^\/statuses\/destroy/)) {
+        client.post(urlParsed.pathname, function(error, tweets, response) {
+            if (response.statusMessage === 'OK') {
+                res.send({status: 'OK'})
+            }
+            if(error) {
+                res.send({status: 'ERR', message: error})
+            }
+        })
+    }
 });
+
+module.exports = router;

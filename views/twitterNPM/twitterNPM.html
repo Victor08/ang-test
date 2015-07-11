@@ -1,16 +1,26 @@
 <main-header>Twitter npm test page</main-header>
+
 <horizontal-menu></horizontal-menu>
 
 <div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label for="twitterSearch" class="control-label"></label>
-            <input id="twitterSearch" class="form-control" type="text" ng-model="twitterSearch">
+    <div class="col-xs-2 col-md-1"></div>
+    <div class="col-xs-10 col-md-11">
+        <div class=" well">
+            <div class="form-horizontal">
+                <div class="col-xs-8">
+                    <input id="newTweet" class="form-control" type="text" ng-model="newTweet">
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-primary" ng-click="postTweet()">Запостить твит</button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="form-group">
-            <button class="btn btn-primary">Искать твиты</button>
-        </div>
-
     </div>
+</div>
 
+<div class="row">
+    <div class="col-sm-12" ng-repeat="tweet in tweets.statuses">
+        <tweet-status removable="true"></tweet-status>
+    </div>
 </div>

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development nodemon --debug ./bin/www",
+    "start": "NODE_ENV=development nodemon --debug-brk ./bin/www",
     "postInstall": "bower install"
   },
   "repository": "https://github.com/Victor08/ang-test.git",
@@ -16,8 +16,8 @@
     "gulp-sourcemaps": "*",
     "http-server": "^0.6.1",
     "merge-stream": "~0.1.7",
-    "node-inspector": "^0.10.1",
-    "nodemon": "^1.3.7",
+    "node-inspector": "0.10.1",
+    "nodemon": "1.3.7",
     "util": "^0.10.3"
   },
   "dependencies": {
